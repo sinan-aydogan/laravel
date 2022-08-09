@@ -1,0 +1,23 @@
+.input{
+    @apply rounded-lg min-h-[2.5rem] border-slate-300 dark:border-transparent dark:bg-slate-500/75 w-full
+}
+
+.input-checkbox{
+    @apply w-5 h-5 rounded-md
+}
+
+.input-radio{
+    @apply w-5 h-5 rounded-full
+}
+
+.input-wrapper{
+    @apply flex flex-col flex-shrink-0 w-full
+}
+
+.input-label{
+    @apply text-sm font-semibold
+}
+
+.input-error{
+    @apply text-xs text-rose-600 dark:text-rose-400
+}

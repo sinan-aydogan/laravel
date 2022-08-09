@@ -1,0 +1,60 @@
+{
+    "auth": {
+        "login": "Giriş Yap",
+        "register": "Kayıt Ol"
+    },
+    "langs": {
+        "tr": "Türkçe",
+        "en": "İngilizce"
+    },
+    "role": {
+        "admin": "Yönetici",
+        "moderator": "Moderatör"
+    },
+    "item": "{count} adet ürün | {count} adet ürün",
+    "cart": {
+        "cartCount": "Sepetinizde {itemCount} var."
+    },
+    "car": "araba | arabalar",
+    "datetimeFormats": {
+        "short": {
+            "year": "numeric",
+            "month": "short",
+            "day": "numeric"
+        },
+        "long": {
+            "year": "numeric",
+            "month": "short",
+            "day": "numeric",
+            "weekday": "short",
+            "hour": "numeric",
+            "minute": "numeric",
+            "hour12": false
+        }
+    },
+    "numberFormats": {
+        "currency": {
+            "style": "currency",
+            "currency": "TRY",
+            "notation": "standard"
+        },
+        "decimal": {
+            "style": "decimal",
+            "minimumFractionDigits": 2,
+            "maximumFractionDigits": 2
+        },
+        "percent": {
+            "style": "percent",
+            "useGrouping": false
+        }
+    },
+    "validationMessages": {
+        "required": "Bu alan gereklidir",
+        "email": "Lütfen geçerli bir email adresi giriniz.",
+        "minValue": "Girdiğiniz değer en az {value} olmalıdır"
+    },
+    "command": {
+        "reset": "Formu Sıfırla",
+        "submit": "Gönder"
+    }
+}

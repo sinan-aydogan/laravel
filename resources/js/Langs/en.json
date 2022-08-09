@@ -1,0 +1,62 @@
+{
+    "auth": {
+        "login": "Login",
+        "register": "Register"
+    },
+    "langs": {
+        "tr": "Turkish",
+        "en": "English"
+    },
+    "role": {
+        "admin": "Admin",
+        "moderator": "Moderator"
+    },
+    "item": "{count} item | {count} items",
+    "adminGreatings": "Welcome {name}, you're a @.lower:role.admin",
+    "moderatorGreatings": "Welcome <b>{name}</b>, you're a @.lower:role.moderator",
+    "cart": {
+        "cartCount": "{itemCount} in cart."
+    },
+    "car": "car | cars",
+    "datetimeFormats": {
+        "short": {
+            "year": "numeric",
+            "month": "short",
+            "day": "numeric"
+        },
+        "long": {
+            "year": "numeric",
+            "month": "short",
+            "day": "numeric",
+            "weekday": "short",
+            "hour": "numeric",
+            "minute": "numeric",
+            "hour12": true
+        }
+    },
+    "numberFormats": {
+        "currency": {
+            "style": "currency",
+            "currency": "USD",
+            "notation": "standard"
+        },
+        "decimal": {
+            "style": "decimal",
+            "minimumFractionDigits": 2,
+            "maximumFractionDigits": 2
+        },
+        "percent": {
+            "style": "percent",
+            "useGrouping": false
+        }
+    },
+    "validationMessages": {
+        "required": "This field is required",
+        "email": "Your entry isn't a valid email adress",
+        "minValue": "Your enrty must be greater than {value}"
+    },
+    "command": {
+        "reset": "Reset",
+        "submit": "Submit"
+    }
+}
