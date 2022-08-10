@@ -7,6 +7,8 @@ import { Inertia } from "@inertiajs/inertia";
 import TDarkModeChanger from "@/Components/TDarkModeChanger.vue";
 import TMenu from "@/Components/TMenu.vue";
 import { useStore } from "@/stores/useMenu.js"
+import { useNotification } from "@/stores/useNotification.js";
+import TNotification from "@/Components/TNotification.vue"
 
 const menu = useStore();
 
@@ -42,6 +44,16 @@ const changeLang = (lang) => {
         lang: lang
     })
 };
+
+// Notification
+const notification = useNotification();
+
+const addNotification = () => {
+    notification.add({
+        type: 'success',
+        content: 'İçerik başarıyla eklendi'
+    })
+}
 </script>
 
 <template>
@@ -107,9 +119,15 @@ const changeLang = (lang) => {
             <!-- Content -->
             <div class="p-4 bg-white dark:bg-slate-600">
                 <slot />
+                <div @click="addNotification">Bildirim Ekle</div>
             </div>
         </div>
     </div>
+
+    <!-- Notification -->
+    <teleport to="body">
+        <t-notification />
+    </teleport>
 </template>
 
 <style scoped>
