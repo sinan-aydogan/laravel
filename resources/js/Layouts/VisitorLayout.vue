@@ -23,6 +23,21 @@ defineProps({
     header: String,
 });
 
+// Notification
+const notification = useNotification();
+
+const addNotification = () => {
+    let message = usePage().props.value.flash.message
+
+    if (message) {
+        notification.add({
+            type: message.type,
+            content: message.content
+        })
+    }
+
+}
+
 const showLangs = ref(false);
 
 const updateLang = () => {
@@ -32,6 +47,7 @@ const updateLang = () => {
 }
 
 onMounted(() => {
+    addNotification();
     updateLang();
 })
 onUpdated(() => {
@@ -45,15 +61,7 @@ const changeLang = (lang) => {
     })
 };
 
-// Notification
-const notification = useNotification();
 
-const addNotification = () => {
-    notification.add({
-        type: 'success',
-        content: 'İçerik başarıyla eklendi'
-    })
-}
 </script>
 
 <template>
@@ -119,7 +127,6 @@ const addNotification = () => {
             <!-- Content -->
             <div class="p-4 bg-white dark:bg-slate-600">
                 <slot />
-                <div @click="addNotification">Bildirim Ekle</div>
             </div>
         </div>
     </div>

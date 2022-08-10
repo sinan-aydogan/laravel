@@ -21,19 +21,18 @@ const notificationStyle = {
     <div class="fixed right-0 bottom-0">
         <!-- Body -->
         <transition-group name="fade">
-        <template v-for="i in notifications" :key="i.id">
-            <div class="relative flex mr-10 mb-8 p-4 rounded-lg text-white select-none"
-                :class="notificationStyle[i.type]">
-                <!-- Message -->
-                {{i.id}}
-                <span v-text="i.content"></span>
-                <!-- Delete Button -->
-                <font-awesome-icon @click="notification.delete(i)" icon="fa-solid fa-xmark" mask="fa-solid fa-circle"
-                    transform="shrink-2"
-                    class="absolute -top-2 -right-2 cursor-pointer hover:scale-110 active:scale-90 transition"
-                    size="lg" />
-            </div>
-        </template>
+            <template v-for="i in notifications" :key="i.id">
+                <div class="relative flex mr-10 mb-8 p-4 rounded-lg text-white select-none"
+                    :class="notificationStyle[i.type]">
+                    <!-- Message -->
+                    <span v-text="i.content"></span>
+                    <!-- Delete Button -->
+                    <font-awesome-icon @click="notification.delete(i)" icon="fa-solid fa-xmark"
+                        mask="fa-solid fa-circle" transform="shrink-2"
+                        class="absolute -top-2 -right-2 cursor-pointer hover:scale-110 active:scale-90 transition"
+                        size="lg" />
+                </div>
+            </template>
         </transition-group>
     </div>
 </template>
@@ -41,16 +40,18 @@ const notificationStyle = {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
 }
 
-.fade-enter-from,.fade-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
 }
 
-.fade-enter-to, .fade-leave-from{
+.fade-enter-to,
+.fade-leave-from {
     opacity: 1;
-  transform: translateY(0);
+    transform: translateY(0);
 }
 </style>
