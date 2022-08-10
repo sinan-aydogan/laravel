@@ -13,7 +13,7 @@ import TModal from "@/Components/TModal.vue";
 import TTable from "@/Components/TTable.vue";
 
 defineProps({
-    tableData: [Array]
+    tableData: [Array, Object]
 })
 
 const options = [

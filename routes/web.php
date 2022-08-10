@@ -23,6 +23,36 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+// Temp. Routes
+
+Route::get('product', function(){
+    return Inertia::render('Welcome', [
+        'header' => 'Ürünler',
+        'tableData' => User::paginate(10),
+    ]);
+})->name('product.index');
+
+Route::get('raw-material', function(){
+    return Inertia::render('Welcome', [
+        'header' => 'Hammaddeler',
+        'tableData' => User::paginate(10),
+    ]);
+})->name('raw-material.index');
+
+Route::get('tool', function(){
+    return Inertia::render('Welcome', [
+        'header' => 'Ölçü Aletleri',
+        'tableData' => User::paginate(10),
+    ]);
+})->name('tool.index');
+
+Route::get('certificate', function(){
+    return Inertia::render('Welcome', [
+        'header' => 'Sertifikalar',
+        'tableData' => User::paginate(10),
+    ]);
+})->name('certificate.index');
+
 // Update Lang
 Route::post('update-lang', [\App\Http\Controllers\UpdateLangController::class, 'update'])->name('update-lang');
 

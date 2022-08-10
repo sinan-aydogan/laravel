@@ -5,7 +5,10 @@ import { useI18n } from "vue-i18n";
 import Langs from "../Langs/langs";
 import { Inertia } from "@inertiajs/inertia";
 import TDarkModeChanger from "@/Components/TDarkModeChanger.vue";
+import TMenu from "@/Components/TMenu.vue";
+import { useStore } from "@/stores/useMenu.js"
 
+const menu = useStore();
 
 const { t, locale } = useI18n();
 const { langs } = Langs();
@@ -48,26 +51,16 @@ const changeLang = (lang) => {
     <!-- Container -->
     <div class="flex w-screen h-screen bg-slate-200 dark:bg-slate-600 overflow-hidden">
         <!-- SideBar -->
-        <div
-            class="flex flex-col flex-shrink-0 bg-slate-800 w-[14rem] text-slate-100 border-r dark:border-slate-400/50">
-            <!-- Logo -->
-            <div class="flex justify-center items-center h-16">
-                <span class="text-xl">
-                    Jetstream Eğitimi
-                </span>
-            </div>
-
-            <!-- Menu -->
-            Menü
-
-        </div>
+        <t-menu />
         <!-- Content Wrapper -->
         <div class="flex flex-col w-full overflow-y-scroll text-slate-700 dark:text-slate-100">
             <!-- Top Bar -->
             <div
                 class="flex justify-between bg-white dark:bg-slate-800 w-full h-16 items-center p-4 dark:text-slate-100">
                 <!-- Search -->
-                <div>
+                <div class="flex space-x-4 items-center">
+                    <!-- Menu Toggle -->
+                    <font-awesome-icon icon="bars" size="xl" class="cursor-pointer" @click="menu.toggleMenu()" />
                     <input type="text"
                         class="hidden md:block border dark:border-transparent border-slate-300 bg-slate-100 rounded-lg dark:bg-slate-500" />
                 </div>

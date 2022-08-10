@@ -6,6 +6,10 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
+import { createPinia } from "pinia";
+
+//Pinia
+const pinia = createPinia();
 
 // Fontawesome Components
 import {
@@ -58,6 +62,7 @@ createInertiaApp({
             .component("font-awesome-layers-text", FontAwesomeLayersText)
             .component("TContentCard", TContentCard)
             .use(plugin)
+            .use(pinia)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },
