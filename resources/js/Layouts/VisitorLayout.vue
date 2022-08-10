@@ -7,6 +7,8 @@ import { Inertia } from "@inertiajs/inertia";
 import TDarkModeChanger from "@/Components/TDarkModeChanger.vue";
 import TMenu from "@/Components/TMenu.vue";
 import { useStore } from "@/stores/useMenu.js"
+import { useNotification } from "@/stores/useNotification.js";
+import TNotification from "@/Components/TNotification.vue"
 
 const menu = useStore();
 
@@ -21,6 +23,21 @@ defineProps({
     header: String,
 });
 
+// Notification
+const notification = useNotification();
+
+const addNotification = () => {
+    let message = usePage().props.value.flash.message
+
+    if (message) {
+        notification.add({
+            type: message.type,
+            content: message.content
+        })
+    }
+
+}
+
 const showLangs = ref(false);
 
 const updateLang = () => {
@@ -30,6 +47,7 @@ const updateLang = () => {
 }
 
 onMounted(() => {
+    addNotification();
     updateLang();
 })
 onUpdated(() => {
@@ -42,6 +60,8 @@ const changeLang = (lang) => {
         lang: lang
     })
 };
+
+
 </script>
 
 <template>
@@ -110,6 +130,11 @@ const changeLang = (lang) => {
             </div>
         </div>
     </div>
+
+    <!-- Notification -->
+    <teleport to="body">
+        <t-notification />
+    </teleport>
 </template>
 
 <style scoped>
