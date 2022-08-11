@@ -53,6 +53,14 @@ Route::get('certificate', function(){
     ]);
 })->name('certificate.index');
 
+Route::get('post', function(){
+    return response()->json(\App\Models\Post::with('authors')->find(2));
+})->name('post');
+
+Route::get('user', function(){
+    return response()->json(\App\Models\User::with('posts')->find(1));
+})->name('user');
+
 // Update Lang
 Route::post('update-lang', [\App\Http\Controllers\UpdateLangController::class, 'update'])->name('update-lang');
 

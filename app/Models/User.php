@@ -58,4 +58,17 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the phone associated with the user.
+     */
+    public function post()
+    {
+        return $this->hasOne(Post::class);
+    }
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class);
+    }
 }
