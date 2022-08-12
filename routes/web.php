@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,21 +16,18 @@ use App\Models\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
+Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('home');
 
-    return Inertia::render('Welcome', [
-        'header' => 'Ana Sayfa',
-        'tableData' => User::paginate(10),
-    ]);
-})->name('home');
+Route::resource('post', \App\Http\Controllers\PostController::class);
+
+Route::get('yazi/{post}', function(Post $post){
+    return response()->json($post);
+})->name('yazi.goster');
 
 // Temp. Routes
 
 Route::get('product', function(){
-    return Inertia::render('Welcome', [
-        'header' => 'Ürünler',
-        'tableData' => User::paginate(10),
-    ]);
+
 })->name('product.index');
 
 Route::get('raw-material', function(){
@@ -52,10 +50,6 @@ Route::get('certificate', function(){
         'tableData' => User::paginate(10),
     ]);
 })->name('certificate.index');
-
-Route::get('post', function(){
-    return response()->json(\App\Models\Post::with('authors')->find(2));
-})->name('post');
 
 Route::get('user', function(){
     return response()->json(\App\Models\User::with('posts')->find(1));
