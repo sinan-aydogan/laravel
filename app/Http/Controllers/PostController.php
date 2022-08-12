@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -29,7 +31,8 @@ class PostController extends Controller
     public function create()
     {
         return Inertia::render("Models/Post/CreatePage", [
-            'header' => "Yeni Yazı Ekle"
+            'header' => "Yeni Yazı Ekle",
+            'userList' => User::all(['id', 'name'])
         ]);
     }
 
@@ -41,6 +44,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $post = new Post;
+        $post->code = Str::random(5);
+        $post->name = $request->name;
+        $post->summary = $request->summary;
+        $post->user_id = $request->user_id;
+        $post->status = $request->status;
+        $post->save();
+
+        $post->authors()->attach(User::find($post->user_id));
+
         session()->flash('message', ['type'=>'success', 'content'=>'Yazı başarıyla eklendi']);
 
         return redirect()->route('post.index');

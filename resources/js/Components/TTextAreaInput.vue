@@ -2,20 +2,7 @@
 defineProps({
     label: String,
     errors: [Object, Array],
-    modelValue: [String, Number, Date, Boolean],
-    options: [Array, Object],
-    valueKey: {
-        type: String,
-        default: 'id'
-    },
-    labelKey: {
-        type: String,
-        default: 'label'
-    },
-    placeholder: {
-        type: String,
-        default: 'Seçiniz'
-    },
+    modelValue: [String, Number, Date],
     icon: String,
     clearable: Boolean
 })
@@ -32,17 +19,10 @@ defineProps({
             <!-- Icon -->
             <font-awesome-icon v-if="icon" :icon="icon" class="absolute left-3 top-3" />
             <!-- Input--->
-            <select class="input" @change="$emit('update:modelValue', $event.target.value)" placeholder="selam">
-                <option value="" class="text-slate-400">{{ placeholder }}</option>
-                <!-- Options -->
-                <template v-for="i in options">
-                    <option :value="i[valueKey]" :selected="modelValue == i[valueKey] ? 'selected' : false">{{
-                            i[labelKey]
-                    }}</option>
-                </template>
-            </select>
+            <textarea class="input" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"
+                :class="icon ? 'pl-10' : ''" />
             <!-- Clearable Button -->
-            <div v-if="modelValue && clearable" class="absolute right-8 top-2.5 cursor-pointer"
+            <div v-if="modelValue && clearable" class="absolute right-3 top-2.5 cursor-pointer"
                 @click="$emit('update:modelValue', '')">
                 <font-awesome-icon icon="fa-solid fa-xmark" transform="shrink-2" mask="fa-solid fa-circle" />
             </div>
