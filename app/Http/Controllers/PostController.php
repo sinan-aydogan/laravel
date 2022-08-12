@@ -15,7 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json(Post::all());
+        return Inertia::render("Models/Post/IndexPage", [
+            'header' => "Yazılar"
+        ]);
     }
 
     /**
@@ -25,7 +27,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("Models/Post/CreatePage", [
+            'header' => "Yeni Yazı Ekle"
+        ]);
     }
 
     /**
@@ -36,7 +40,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        session()->flash('message', ['type'=>'success', 'content'=>'Yazı başarıyla eklendi']);
+
+        return redirect()->route('post.index');
     }
 
     /**
@@ -45,9 +51,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        return response()->json(Post::find($id));
+        return Inertia::render("Models/Post/ShowPage", [
+            'header' => $post->name
+        ]);
     }
 
     /**
@@ -56,9 +64,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        return response()->json(Post::find($id));
+        return Inertia::render("Models/Post/EditPage", [
+            'header' => $post->name
+        ]);
     }
 
     /**
@@ -70,7 +80,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        session()->flash('message', ['type'=>'success', 'content'=>'Yazı düzenlendi eklendi']);
+
+        return redirect()->route('post.index');
     }
 
     /**
@@ -79,8 +91,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        session()->flash('message', ['type'=>'danger', 'content'=>'Yazı silindi']);
+
+        return redirect()->route('post.index');
     }
 }
