@@ -27,6 +27,7 @@ Route::resource('post', \App\Http\Controllers\PostController::class);
 // Update Lang
 Route::post('update-lang', [\App\Http\Controllers\UpdateLangController::class, 'update'])->name('update-lang');
 
+
 // Test
 Route::any('test',function(){
     return Inertia::render('Test');

@@ -16,7 +16,8 @@ class PostController extends Controller
     public function index()
     {
         return Inertia::render("Models/Post/IndexPage", [
-            'header' => "Yazılar"
+            'header' => "Yazılar",
+            'postList' => Post::paginate(10)
         ]);
     }
 
@@ -93,6 +94,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->delete();
+
         session()->flash('message', ['type'=>'danger', 'content'=>'Yazı silindi']);
 
         return redirect()->route('post.index');

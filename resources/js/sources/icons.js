@@ -21,6 +21,10 @@ import {
     faShapes,
     faCertificate,
     faBars,
+    faPenToSquare,
+    faTrash,
+    faEye,
+    faLeftLong,
 } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
@@ -47,5 +51,9 @@ library.add(
     faRightFromBracket,
     faShapes,
     faCertificate,
-    faBars
+    faBars,
+    faPenToSquare,
+    faTrash,
+    faEye,
+    faLeftLong
 );
