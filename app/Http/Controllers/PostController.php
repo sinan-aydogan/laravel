@@ -28,13 +28,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $selected = $request->selected ? $request->selected : [];
         return Inertia::render("Models/Post/CreatePage", [
             'header' => "Yeni Yazı Ekle",
-            'userList' => User::all(['id', 'name'])
+            'userList' => User::where('name', 'like', "%".$request->searchText."%")->get(['id', 'name']),
+            'selectedUsers' => User::whereIn('id', $selected)->get(['id', 'name'])
         ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -48,11 +51,10 @@ class PostController extends Controller
         $post->code = Str::random(5);
         $post->name = $request->name;
         $post->summary = $request->summary;
-        $post->user_id = $request->user_id;
         $post->status = $request->status;
         $post->save();
 
-        $post->authors()->attach(User::find($post->user_id));
+        $post->authors()->sync($request->authors);
 
         session()->flash('message', ['type'=>'success', 'content'=>'Yazı başarıyla eklendi']);
 

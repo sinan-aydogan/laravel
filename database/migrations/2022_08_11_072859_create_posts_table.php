@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('name',100);
             $table->string('summary',250)->nullable();
             $table->boolean('status')->nullable();
-            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }

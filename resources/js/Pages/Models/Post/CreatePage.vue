@@ -6,14 +6,14 @@ import TButton from "@/Components/TButton.vue";
 import TForm from "@/Components/TForm.vue";
 import TTextInput from "@/Components/TTextInput.vue";
 import TTextAreaInput from "@/Components/TTextAreaInput.vue";
-import TSelectInput from "@/Components/TSelectInput.vue";
 import TRadioInput from "@/Components/TRadioInput.vue";
+import TSearchInput from "@/Components/TSearchInput.vue";
 import { useForm } from '@inertiajs/inertia-vue3'
-import { Inertia } from "@inertiajs/inertia";
 
 defineProps({
     header: String,
-    userList: Array
+    userList: Array,
+    selectedUsers: Array
 })
 
 // Form
@@ -21,7 +21,7 @@ defineProps({
 const form = useForm({
     name: '',
     summary: '',
-    user_id: null,
+    authors: [],
     status: true
 })
 
@@ -55,8 +55,8 @@ const handleSubmit = () => {
             <!-- Summary -->
             <t-text-area-input class="col-span-6" label="Yazı Metni" v-model="form.summary" />
             <!-- Author -->
-            <t-select-input class="col-span-6" label="Yazar" v-model="form.user_id" :options="userList"
-                labelKey="name" />
+            <t-search-input class="col-span-6" v-model="form.authors" model="userList" :data="userList"
+                selectedModel="selectedUsers" :selectedData="selectedUsers" />
             <!-- Status -->
             <t-radio-input class="col-span-6" label="Durum" v-model="form.status" :options="statusTypes" />
         </t-form>

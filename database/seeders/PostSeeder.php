@@ -20,18 +20,16 @@ class PostSeeder extends Seeder
         $post = new Post;
         $post->name = "Ankara'nın taşına bak";
         $post->code= "ANK";
-        $post->user_id = 1;
         $post->save();
 
         // Post 2
         $post2 = Post::create([
             "code" => "IZM",
             "name" => "İzmir'de gün batımı",
-            "user_id" => 3
         ]);
 
         // Relation
-        $post->authors()->attach(User::find($post->user_id));
-        $post2->authors()->attach(User::find($post2->user_id));
+        $post->authors()->sync([1,5,6]);
+        $post2->authors()->sync([2,5,10]);
     }
 }

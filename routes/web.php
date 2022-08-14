@@ -23,6 +23,7 @@ Route::get('/', function(){
 // Post
 
 Route::resource('post', \App\Http\Controllers\PostController::class);
+Route::post('post/create', [\App\Http\Controllers\PostController::class, 'create'])->name('post.create');
 
 // Update Lang
 Route::post('update-lang', [\App\Http\Controllers\UpdateLangController::class, 'update'])->name('update-lang');

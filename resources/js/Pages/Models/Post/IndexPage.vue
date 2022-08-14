@@ -27,7 +27,9 @@ const headers = [
 
 // Delete
 const handleDelete = (id) => {
-    Inertia.delete(route('post.destroy', id))
+    Inertia.delete(route('post.destroy', id), {
+        onBefore: visit => confirm("Öğe silinecektir, emin misiniz?"),
+    })
 }
 </script>
 
