@@ -65,10 +65,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
+        $post = Post::with('authors')->find($id);
         return Inertia::render("Models/Post/ShowPage", [
-            'header' => $post->name
+            'header' => $post->name,
+            'post' => $post
         ]);
     }
 
@@ -81,7 +83,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         return Inertia::render("Models/Post/EditPage", [
-            'header' => $post->name
+            'header' => $post->name,
+            'post' => $post,
+            'userList' => User::all(['id', 'name'])
         ]);
     }
 
@@ -92,8 +96,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
+        $post->name = $request->name;
+        $post->summary = $request->summary;
+        $post->user_id = $request->user_id;
+        $post->status = $request->status;
+
+        $post->save();
+
         session()->flash('message', ['type'=>'success', 'content'=>'Yazı düzenlendi eklendi']);
 
         return redirect()->route('post.index');

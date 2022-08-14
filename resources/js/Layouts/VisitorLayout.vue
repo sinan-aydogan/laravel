@@ -122,7 +122,7 @@ const changeLang = (lang) => {
                 </span>
 
                 <!-- Action Area -->
-                <div>
+                <div class="flex justify-end space-x-2">
                     <slot name="actionArea" />
                 </div>
             </div>
