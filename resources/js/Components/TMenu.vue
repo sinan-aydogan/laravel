@@ -4,6 +4,8 @@ import Menu from "@/sources/menu.js"
 import TMenuItem from "@/Components/TMenuItem.vue";
 import { useStore } from "@/stores/useMenu.js"
 import { storeToRefs } from "pinia"
+import { Inertia } from "@inertiajs/inertia";
+import { Link } from "@inertiajs/inertia-vue3"
 
 const menu = useStore();
 const { activeLink, showMenu } = storeToRefs(menu)
@@ -28,6 +30,9 @@ onMounted(() => {
     })
 
 })
+const logout = () => {
+    Inertia.post(route('logout'))
+}
 </script>
 
 <template>
@@ -56,14 +61,15 @@ onMounted(() => {
             </template>
         </div>
         <!-- User Info -->
-        <div class="flex items-center bg-slate-800/50 h-16 px-4 space-x-4">
-            <!-- Avatar -->
-            <img src="https://i.pravatar.cc/150" class="w-10 h-10 rounded-full" />
-            <!-- User Info -->
-            <div class="flex space-x-4 items-center">
-                <span class="font-semibold">Sinan AYDOĞAN</span>
-                <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="hover:text-rose-500 cursor-pointer" />
-            </div>
+        <Link :href="route('profile.show')" class="flex items-center bg-slate-800/50 h-16 px-4 space-x-4">
+        <!-- Avatar -->
+        <img :src="$page.props.user.profile_photo_url" class="w-10 h-10 rounded-full" />
+        <!-- User Info -->
+        <div class="flex justify-between space-x-4 items-center w-full">
+            <span class="font-semibold" v-text="$page.props.user.name"></span>
+            <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="hover:text-rose-500 cursor-pointer"
+                @click.stop="logout" />
         </div>
+        </Link>
     </div>
 </template>
