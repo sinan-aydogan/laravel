@@ -20,7 +20,8 @@ const props = defineProps({
     valueKey: {
         type: String,
         default: 'id'
-    }
+    },
+    errors: [Array, Object]
 })
 
 const searchText = ref('');
@@ -86,6 +87,15 @@ const handleSearch = () => {
                         class="text-rose-500 cursor-pointer hover:scale-110 active:scale-90 transition"
                         transform="shrink-3" />
                 </div>
+            </template>
+        </div>
+
+        <!-- Error -->
+        <div v-if="errors">
+            <template v-for="i in errors">
+                <span class="input-error">
+                    {{ i.hasOwnProperty('$message') ? i.$message : i }}
+                </span>
             </template>
         </div>
     </div>

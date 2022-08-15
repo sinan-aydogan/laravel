@@ -1,5 +1,6 @@
 <script setup>
 import VisitorLayout from "@/Layouts/VisitorLayout.vue"
+import { ref } from "vue"
 
 // Components
 import TButton from "@/Components/TButton.vue";
@@ -9,6 +10,10 @@ import TTextAreaInput from "@/Components/TTextAreaInput.vue";
 import TRadioInput from "@/Components/TRadioInput.vue";
 import TSearchInput from "@/Components/TSearchInput.vue";
 import { useForm } from '@inertiajs/inertia-vue3'
+
+// Validation
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from "@vuelidate/validators"
 
 defineProps({
     header: String,
@@ -25,6 +30,17 @@ const form = useForm({
     status: true
 })
 
+
+// Rules
+const authorsValidation = (value) => value.length > 0
+const rules = ref({
+    name: { required: helpers.withMessage('Yazı başlığı gereklidir', required) },
+    summary: { required: helpers.withMessage('Yazı özeti gereklidir', required) },
+    authors: { authorsValidation: helpers.withMessage('En az bir yazar eklemelisiniz', authorsValidation) }
+})
+
+const v$ = useVuelidate(rules, form)
+
 const statusTypes = [
     {
         id: true,
@@ -36,7 +52,9 @@ const statusTypes = [
     }
 ]
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
+    const isValidated = await v$.value.$validate()
+    if (!isValidated) return
     form.post(route('post.store'))
 }
 </script>
@@ -51,12 +69,13 @@ const handleSubmit = () => {
         <!-- Form -->
         <t-form @submited="handleSubmit" @reset="form.reset()">
             <!-- Title -->
-            <t-text-input class="col-span-6" label="Yazı Başlığı" v-model="form.name" />
+            <t-text-input class="col-span-6" label="Yazı Başlığı" v-model="form.name" :errors="v$.name.$errors" />
             <!-- Summary -->
-            <t-text-area-input class="col-span-6" label="Yazı Metni" v-model="form.summary" />
+            <t-text-area-input class="col-span-6" label="Yazı Metni" v-model="form.summary"
+                :errors="v$.summary.$errors" />
             <!-- Author -->
             <t-search-input class="col-span-6" v-model="form.authors" model="userList" :data="userList"
-                selectedModel="selectedUsers" :selectedData="selectedUsers" />
+                selectedModel="selectedUsers" :selectedData="selectedUsers" :errors="v$.authors.$errors" />
             <!-- Status -->
             <t-radio-input class="col-span-6" label="Durum" v-model="form.status" :options="statusTypes" />
         </t-form>

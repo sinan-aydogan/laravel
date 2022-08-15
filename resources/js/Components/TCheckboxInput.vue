@@ -60,7 +60,7 @@ const addValue = (value) => {
         <div v-if="errors">
             <template v-for="i in errors">
                 <span class="input-error">
-                    {{ i }}
+                    {{ i.hasOwnProperty('$message') ? i.$message : i }}
                 </span>
             </template>
         </div>
