@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue"
+import { ref, onUpdated } from "vue"
 import { Inertia } from '@inertiajs/inertia';
 import { onClickOutside } from '@vueuse/core'
 
@@ -8,6 +8,7 @@ const target = ref(null)
 onClickOutside(target, (event) => searchText.value = '')
 
 const props = defineProps({
+    id: String,
     model: String,
     selectedModel: String,
     modelValue: Array,
@@ -21,7 +22,10 @@ const props = defineProps({
         type: String,
         default: 'id'
     },
-    errors: [Array, Object]
+    errors: {
+        type: [Object, Array],
+        default: () => []
+    },
 })
 
 const searchText = ref('');
@@ -52,6 +56,18 @@ const handleSearch = () => {
         only: [props.model]
     })
 }
+
+onUpdated(() => {
+    if (props.modelValue && props.selectedData.length === 0) {
+        Inertia.reload({
+            method: 'post',
+            data: {
+                selected: props.modelValue
+            },
+            only: [props.selectedModel],
+        })
+    }
+})
 </script>
 
 <template>
@@ -91,12 +107,18 @@ const handleSearch = () => {
         </div>
 
         <!-- Error -->
-        <div v-if="errors">
-            <template v-for="i in errors">
-                <span class="input-error">
-                    {{ i.hasOwnProperty('$message') ? i.$message : i }}
-                </span>
-            </template>
+        <div v-if="errors.length > 0 || $page.props.errors[id]" class="flex flex-col">
+            <!-- Frontend Errors -->
+            <div v-if="errors.length > 0">
+                <template v-for="i in errors">
+                    <span class="input-error">
+                        {{ i.hasOwnProperty('$message') ? i.$message : i }}
+                    </span>
+                </template>
+            </div>
+
+            <!-- Backend Error -->
+            <span v-else v-text="$page.props.errors[id]" class="input-error"></span>
         </div>
     </div>
 </template>

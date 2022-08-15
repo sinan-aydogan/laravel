@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -47,6 +48,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'summary' => 'required',
+            'authors' => 'required',
+        ],[
+            'name.required' => __('validation.post.name.required'),
+            'summary.required' => __('validation.post.summary.required'),
+            'authors.required' => __('validation.post.authors.required')
+        ])->validate();
+
         $post = new Post;
         $post->code = Str::random(5);
         $post->name = $request->name;
@@ -104,6 +115,19 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $request['code'] = $post->id;
+        $validator = Validator::make($request->all(), [
+            'code' => 'unique:posts,id,'.$post->id,
+            'name' => 'required',
+            'summary' => 'required',
+            'authorList' => 'required',
+        ],[
+            'name.required' => __('validation.post.name.required'),
+            'summary.required' => __('validation.post.summary.required'),
+            'authorList.required' => __('validation.post.authorList.required')
+        ])->validate();
+
+
         $post->name = $request->name;
         $post->summary = $request->summary;
         $post->status = $request->status;

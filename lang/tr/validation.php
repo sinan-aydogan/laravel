@@ -176,5 +176,15 @@ return [
     */
 
     'attributes' => [],
-
+    'post' => [
+        'name' => [
+            'required' => 'Yazı başlığı gereklidir.'
+        ],
+        'summary' => [
+            'required' => 'Yazı özeti gereklidir'
+        ],
+        'authors' => [
+            'required' => 'En az bir yazar eklemelisiniz'
+        ],
+    ]
 ];

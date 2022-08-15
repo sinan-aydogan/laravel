@@ -69,15 +69,16 @@ const handleSubmit = async () => {
         <!-- Form -->
         <t-form @submited="handleSubmit" @reset="form.reset()">
             <!-- Title -->
-            <t-text-input class="col-span-6" label="Yazı Başlığı" v-model="form.name" :errors="v$.name.$errors" />
+            <t-text-input class="col-span-6" label="Yazı Başlığı" id="name" v-model="form.name"
+                :errors="v$.name.$errors" />
             <!-- Summary -->
-            <t-text-area-input class="col-span-6" label="Yazı Metni" v-model="form.summary"
+            <t-text-area-input class="col-span-6" id="summary" label="Yazı Metni" v-model="form.summary"
                 :errors="v$.summary.$errors" />
             <!-- Author -->
-            <t-search-input class="col-span-6" v-model="form.authors" model="userList" :data="userList"
+            <t-search-input class="col-span-6" id="authors" v-model="form.authors" model="userList" :data="userList"
                 selectedModel="selectedUsers" :selectedData="selectedUsers" :errors="v$.authors.$errors" />
             <!-- Status -->
-            <t-radio-input class="col-span-6" label="Durum" v-model="form.status" :options="statusTypes" />
+            <t-radio-input class="col-span-6" id="status" label="Durum" v-model="form.status" :options="statusTypes" />
         </t-form>
     </visitor-layout>
 </template>
