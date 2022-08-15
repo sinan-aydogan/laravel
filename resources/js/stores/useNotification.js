@@ -6,7 +6,7 @@ export const useNotification = defineStore("notification", {
     }),
     actions: {
         add(value) {
-            let id = Number(new Date().getTime()) + Math.random();
+            let id = Math.floor(new Date().getTime() / 1000);
             value["id"] = id;
 
             this.notifications.push(value);

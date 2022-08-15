@@ -1,28 +1,12 @@
 <script setup>
 defineProps({
-    id: {
-        type: String,
-        default: () => {
-            let i = new Date().getTime()
-
-            return i.toString()
-        }
-    },
+    id: String,
     label: String,
     errors: {
         type: [Object, Array],
         default: () => []
     },
-    modelValue: [String, Number, Date, Boolean],
-    options: [Array, Object],
-    valueKey: {
-        type: String,
-        default: 'id'
-    },
-    labelKey: {
-        type: String,
-        default: 'label'
-    },
+    modelValue: [String, Number, Date],
     icon: String,
     clearable: Boolean
 })
@@ -32,21 +16,15 @@ defineProps({
 
     <div class="input-wrapper">
         <!-- Label -->
-        <span class="input-label">{{ label }}</span>
+        <label class="input-label">{{ label }}</label>
         <!-- Input -->
-        <div class="relative flex items-center space-x-2 min-h-[2.5rem]">
+        <div class="relative">
 
             <!-- Icon -->
             <font-awesome-icon v-if="icon" :icon="icon" class="absolute left-3 top-3" />
             <!-- Input--->
-            <template v-for="i in options">
-                <input type="radio" class="input-radio" :id="i[valueKey]"
-                    :checked="modelValue === i[valueKey] ? 'selected' : null"
-                    @change="$emit('update:modelValue', $event.target.id)" :name="id" />
-                <!-- Label -->
-                <label>{{ i[labelKey] }}</label>
-            </template>
-
+            <textarea class="input" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"
+                :class="icon ? 'pl-10' : ''" />
             <!-- Clearable Button -->
             <div v-if="modelValue && clearable" class="absolute right-3 top-2.5 cursor-pointer"
                 @click="$emit('update:modelValue', '')">

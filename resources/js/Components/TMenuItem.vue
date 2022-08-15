@@ -27,7 +27,7 @@ const itemType = computed(() => {
 })
 const isCurrent = computed(() => {
     let status;
-
+    console.log(route().current())
     if (props.item.type === 'route') {
         status = route().current(props.item.link)
     }

@@ -36,7 +36,8 @@ const tableData = computed(() => {
                         <!-- Columns -->
                         <template v-for="column in headers">
                             <td class="p-2 group-last:first:rounded-bl-lg group-last:last:rounded-br-lg">
-                                {{ row[column.id] }}
+                                <slot v-if="$slots.hasOwnProperty(column.id)" :name="column.id" :props="row" />
+                                <span v-else v-text="row[column.id]" />
                             </td>
                         </template>
                     </tr>

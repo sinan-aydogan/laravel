@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use \App\Models\User;
 use \App\Models\Post;
+use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -22,14 +23,13 @@ class PostFactory extends Factory
         return [
             'code' => Str::random(10),
             'name' => $this->faker->name(),
-            'user_id' => User::all()->random()->id
         ];
     }
 
     public function configure()
     {
         return $this->afterCreating(function (Post $post) {
-            $post->authors()->attach(User::all()->random()->id);
+            $post->authors()->sync(Arr::random(User::pluck('id')->toArray(), 2));
         });
     }
 }

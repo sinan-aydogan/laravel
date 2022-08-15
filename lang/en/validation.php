@@ -166,5 +166,16 @@ return [
     */
 
     'attributes' => [],
+    'post' => [
+        'name' => [
+            'required' => 'The post name is required'
+        ],
+        'summary' => [
+            'required' => 'The post summary is required'
+        ],
+        'authors' => [
+            'required' => 'You must add least one author as a the post author'
+        ],
+    ]
 
 ];

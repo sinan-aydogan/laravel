@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-    <form @submit.prevent="$emit('submitted')">
+    <form @submit.prevent="$emit('submited')">
         <!-- Header -->
         <div class="leading-3 mb-4">
             <!-- Title -->

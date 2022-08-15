@@ -16,11 +16,10 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unque();
+            $table->string('code')->unique();
             $table->string('name',100);
             $table->string('summary',250)->nullable();
             $table->boolean('status')->nullable();
-            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }

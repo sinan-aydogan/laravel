@@ -22,7 +22,7 @@ const notificationStyle = {
         <!-- Body -->
         <transition-group name="fade">
             <template v-for="i in notifications" :key="i.id">
-                <div class="relative flex mr-10 mb-8 p-4 rounded-lg text-white select-none"
+                <div v-if="i.id === i._token" class="relative flex mr-10 mb-8 p-4 rounded-lg text-white select-none"
                     :class="notificationStyle[i.type]">
                     <!-- Message -->
                     <span v-text="i.content"></span>

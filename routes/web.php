@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,54 +16,24 @@ use App\Models\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-
-    return Inertia::render('Welcome', [
-        'header' => 'Ana Sayfa',
-        'tableData' => User::paginate(10),
-    ]);
+Route::get('/', function(){
+    return Inertia::render("Welcome");
 })->name('home');
 
-// Temp. Routes
+// Post
 
-Route::get('product', function(){
-    return Inertia::render('Welcome', [
-        'header' => 'Ürünler',
-        'tableData' => User::paginate(10),
-    ]);
-})->name('product.index');
+Route::get('post', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');
+Route::delete('post/{post}', [\App\Http\Controllers\PostController::class, 'destroy'])->name('post.destroy');
+Route::match(['get', 'post'],'post/create', [\App\Http\Controllers\PostController::class, 'create'])->name('post.create');
+Route::match(['get', 'post'],'post/{post}/edit', [\App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
+Route::get('post/{id}', [\App\Http\Controllers\PostController::class, 'show'])->name('post.show');
+Route::put('post/{post}', [\App\Http\Controllers\PostController::class, 'update'])->name('post.update');
+Route::post('post', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
 
-Route::get('raw-material', function(){
-    return Inertia::render('Welcome', [
-        'header' => 'Hammaddeler',
-        'tableData' => User::paginate(10),
-    ]);
-})->name('raw-material.index');
-
-Route::get('tool', function(){
-    return Inertia::render('Welcome', [
-        'header' => 'Ölçü Aletleri',
-        'tableData' => User::paginate(10),
-    ]);
-})->name('tool.index');
-
-Route::get('certificate', function(){
-    return Inertia::render('Welcome', [
-        'header' => 'Sertifikalar',
-        'tableData' => User::paginate(10),
-    ]);
-})->name('certificate.index');
-
-Route::get('post', function(){
-    return response()->json(\App\Models\Post::with('authors')->find(2));
-})->name('post');
-
-Route::get('user', function(){
-    return response()->json(\App\Models\User::with('posts')->find(1));
-})->name('user');
 
 // Update Lang
 Route::post('update-lang', [\App\Http\Controllers\UpdateLangController::class, 'update'])->name('update-lang');
+
 
 // Test
 Route::any('test',function(){

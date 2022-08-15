@@ -32,7 +32,8 @@ const addNotification = () => {
     if (message) {
         notification.add({
             type: message.type,
-            content: message.content
+            content: message.content,
+            _token: message._token
         })
     }
 
@@ -51,6 +52,7 @@ onMounted(() => {
     updateLang();
 })
 onUpdated(() => {
+    addNotification();
     updateLang();
 })
 const changeLang = (lang) => {
@@ -120,7 +122,7 @@ const changeLang = (lang) => {
                 </span>
 
                 <!-- Action Area -->
-                <div>
+                <div class="flex justify-end space-x-2">
                     <slot name="actionArea" />
                 </div>
             </div>

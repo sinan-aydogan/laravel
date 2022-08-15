@@ -1,7 +1,11 @@
 <script setup>
 const props = defineProps({
+    id: String,
     label: String,
-    errors: [Object, Array],
+    errors: {
+        type: [Object, Array],
+        default: () => []
+    },
     modelValue: [Array, Object],
     options: [Array, Object],
     valueKey: {
@@ -57,12 +61,18 @@ const addValue = (value) => {
             </div>
         </div>
         <!-- Error -->
-        <div v-if="errors">
-            <template v-for="i in errors">
-                <span class="input-error">
-                    {{ i }}
-                </span>
-            </template>
+        <div v-if="errors.length > 0 || $page.props.errors[id]" class="flex flex-col">
+            <!-- Frontend Errors -->
+            <div v-if="errors.length > 0">
+                <template v-for="i in errors">
+                    <span class="input-error">
+                        {{ i.hasOwnProperty('$message') ? i.$message : i }}
+                    </span>
+                </template>
+            </div>
+
+            <!-- Backend Error -->
+            <span v-else v-text="$page.props.errors[id]" class="input-error"></span>
         </div>
     </div>
 </template>

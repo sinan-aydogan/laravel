@@ -40,7 +40,14 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'lang' => session()->get('lang'),
             'flash' => [
-                'message' => fn () => $request->session()->get('message')
+                'message' => function()use($request){
+                    $message = $request->session()->get('message');
+                    if($message){
+                        $message['_token'] = \Carbon\Carbon::now()->timestamp;
+                    }
+
+                    return $message;
+                }
             ],
         ]);
     }
