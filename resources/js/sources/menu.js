@@ -3,46 +3,24 @@ import { ref } from "vue";
 export default function () {
     const links = ref([
         {
-            id: "mrp",
-            label: "Malzeme Yönetimi",
-            type: "dropdown",
-            icon: "fa-solid fa-clipboard-list",
-            items: [
-                {
-                    id: "mrp-pr",
-                    label: "Ürünler",
-                    type: "route",
-                    link: "product.index",
-                    icon: "fa-solid fa-circle",
-                },
-                {
-                    id: "mrp-rw",
-                    label: "Hammaddeler",
-                    type: "route",
-                    link: "raw-material.index",
-                    icon: "fa-solid fa-shapes",
-                },
-            ],
-        },
-        {
-            id: "qa",
-            label: "Kalite",
+            id: "post",
+            label: "Yazı Yönetimi",
             type: "dropdown",
             icon: "fa-solid fa-trophy",
             items: [
                 {
-                    id: "qa-tool",
-                    label: "Ölçü Aletleri",
+                    id: "post-index",
+                    label: "Yazılar",
                     type: "route",
-                    link: "tool.index",
-                    icon: "fa-solid fa-plus",
+                    link: "post.index",
+                    icon: "fa-solid fa-clipboard-list",
                 },
                 {
-                    id: "qa-certificate",
-                    label: "Sertifikalar",
+                    id: "post-create",
+                    label: "Yazı Ekle",
                     type: "route",
-                    link: "certificate.index",
-                    icon: "fa-solid fa-certificate",
+                    link: "post.create",
+                    icon: "fa-solid fa-plus",
                 },
             ],
         },

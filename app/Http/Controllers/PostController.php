@@ -82,12 +82,16 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Request $request, Post $post)
     {
+        $authorList = $post->authors->pluck('id');
+        $post->authorList = $authorList;
+        $selected = $request->selected ? $request->selected : $authorList;
         return Inertia::render("Models/Post/EditPage", [
             'header' => $post->name,
             'post' => $post,
-            'userList' => User::all(['id', 'name'])
+            'userList' => User::where('name', 'like', "%".$request->searchText."%")->get(['id', 'name']),
+            'selectedUsers' => User::whereIn('id', $selected)->get(['id', 'name'])
         ]);
     }
 
@@ -102,12 +106,13 @@ class PostController extends Controller
     {
         $post->name = $request->name;
         $post->summary = $request->summary;
-        $post->user_id = $request->user_id;
         $post->status = $request->status;
 
         $post->save();
 
-        session()->flash('message', ['type'=>'success', 'content'=>'Yazı düzenlendi eklendi']);
+        $post->authors()->sync($request->authorList);
+
+        session()->flash('message', ['type'=>'success', 'content'=>'Yazı düzenlendi']);
 
         return redirect()->route('post.index');
     }
