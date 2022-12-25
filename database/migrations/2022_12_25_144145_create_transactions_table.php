@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('stock_id');
+            $table->foreignId('user_id');
+            $table->unsignedInteger('quantity');
+            $table->string('type')->default('incoming');
             $table->timestamps();
         });
     }
