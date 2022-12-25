@@ -24,7 +24,9 @@ Route::middleware('auth:sanctum')->group(function(){
 });
 
 
-
+Route::get('transactions', function (){
+    return \App\Models\Transaction::all();
+});
 
 // Update Lang
 Route::post('update-lang', [\App\Http\Controllers\UpdateLangController::class, 'update'])->name('update-lang');
