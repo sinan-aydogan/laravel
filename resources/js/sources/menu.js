@@ -3,26 +3,25 @@ import { ref } from "vue";
 export default function () {
     const links = ref([
         {
-            id: "post",
-            label: "Yazı Yönetimi",
-            type: "dropdown",
-            icon: "fa-solid fa-trophy",
-            items: [
-                {
-                    id: "post-index",
-                    label: "Yazılar",
-                    type: "route",
-                    link: "post.index",
-                    icon: "fa-solid fa-clipboard-list",
-                },
-                {
-                    id: "post-create",
-                    label: "Yazı Ekle",
-                    type: "route",
-                    link: "post.create",
-                    icon: "fa-solid fa-plus",
-                },
-            ],
+            id: 'transaction',
+            label: 'Stok Hareketleri',
+            type: '',
+            link: 'transaction.index',
+            icon: 'fa-solid fa-truck'
+        },
+        {
+            id: 'warehouse',
+            label: 'Depolar',
+            type: '',
+            link: 'warehouse.index',
+            icon: 'fa-solid fa-warehouse'
+        },
+        {
+            id: 'product',
+            label: 'Ürünler',
+            type: '',
+            link: 'product.index',
+            icon: 'fa-solid fa-box'
         },
         {
             id: "help",
