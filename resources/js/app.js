@@ -25,6 +25,7 @@ import Langs from "./Langs/langs";
 const i18n = createI18n({
     locale: "tr",
     fallbackLocale: "en",
+    legacy: false,
     datetimeFormats: {
         en: Langs().translates.en.datetimeFormats,
         tr: Langs().translates.tr.datetimeFormats,
