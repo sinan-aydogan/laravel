@@ -6,6 +6,10 @@ import TModal from "@/Components/TModal.vue";
 import TTextInput from "@/Components/TTextInput.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 
+// Validation
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from "@vuelidate/validators"
+
 /*Modal*/
 const showModal = ref(false);
 
@@ -14,12 +18,24 @@ const form = useForm({
     name: ''
 })
 
+const rules = ref({
+    name: { required: helpers.withMessage('Depo adı gereklidir', required) },
+})
+
+const v$ = useVuelidate(rules, form)
+
 /*Submit*/
-const handleSubmit = ()=>{
+const handleSubmit = async ()=>{
+    const isValidated = await v$.value.$validate()
+
+    if (!isValidated) return
+
     form.post(route('warehouse.store'), {
         onFinish: visit => {
-            showModal.value = false;
-            form.reset()
+            if(!form.hasErrors){
+                showModal.value = false;
+                form.reset()
+            }
         },
     });
 }
@@ -33,7 +49,7 @@ const handleSubmit = ()=>{
 
         <!--Modal-->
         <t-modal title="Yeni Depo Oluşturma" v-model="showModal">
-            <t-text-input v-model="form.name" label="Depo Adı"/>
+            <t-text-input v-model="form.name" label="Depo Adı" id="name" :errors="v$.name.$errors" />
 
             <!--Submit-->
             <div class="flex w-full justify-end">
