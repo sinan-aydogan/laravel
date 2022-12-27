@@ -30,3 +30,7 @@
 .btn-light.btn-green{
     @apply bg-emerald-200 text-emerald-700;
 }
+
+.btn-disabled{
+    @apply opacity-50 bg-slate-300 text-slate-700 pointer-events-none !important
+}

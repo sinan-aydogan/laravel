@@ -37,3 +37,4 @@ Route::any('test',function(){
     return Inertia::render('Test');
 })->name('test');
 
+require __DIR__.'/routes.php';

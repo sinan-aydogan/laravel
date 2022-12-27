@@ -11,14 +11,21 @@ defineProps({
         type: String,
         default: 'blue'
     },
-    icon: String
+    icon: String,
+    disabled: {
+        type: Boolean,
+        default: false
+    }
 })
 </script>
 
 <template>
     <component @click="$emit('clicked')" :is="link ? Link : 'button'" :href="link" class="btn" :class="[
         'btn-' + design,
-        'btn-' + color
+        'btn-' + color,
+        {
+            'btn-disabled' : disabled
+        }
     ]">
         <!-- Icon -->
         <div v-if="icon || $slots.hasOwnProperty('icon')">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class WarehouseController extends Controller
 {
@@ -14,7 +15,7 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Warehouse/Index');
     }
 
     /**
@@ -31,11 +32,17 @@ class WarehouseController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $warehouse = new Warehouse;
+        $warehouse->name = $request->name;
+        $warehouse->save();
+
+        session()->flash('message', ['type'=>'success', 'content'=>'Depo eklendi']);
+
+        return redirect()->back();
     }
 
     /**
