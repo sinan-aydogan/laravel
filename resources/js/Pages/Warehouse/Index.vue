@@ -9,12 +9,34 @@ import { useForm } from "@inertiajs/inertia-vue3";
 // Validation
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from "@vuelidate/validators"
+import TTable from "@/Components/TTable.vue";
+
+defineProps({
+    tableData: {
+        type: Object,
+        default: ()=>{}
+    }
+})
+
+/*Headers*/
+const headers = [
+    {
+        id: 'name',
+        label: 'Depo Adı'
+    },
+    {
+        id: 'actions',
+        label: 'İşlemler'
+    }
+]
 
 /*Modal*/
+const modalType = ref('create');
 const showModal = ref(false);
 
 /*Form*/
 const form = useForm({
+    id: '',
     name: ''
 })
 
@@ -24,28 +46,60 @@ const rules = ref({
 
 const v$ = useVuelidate(rules, form)
 
+/*Select Row*/
+const selectedRow = ref({});
+const selectRow = (row)=>{
+    showModal.value = true
+    selectedRow.value = row
+    form.id = row.id
+    form.name = row.name
+}
+
 /*Submit*/
 const handleSubmit = async ()=>{
     const isValidated = await v$.value.$validate()
 
     if (!isValidated) return
 
-    form.post(route('warehouse.store'), {
-        onFinish: visit => {
-            if(!form.hasErrors){
-                showModal.value = false;
-                form.reset()
-            }
-        },
-    });
+    let checkModal = () => {
+        if(!form.hasErrors){
+            showModal.value = false;
+            form.reset()
+        }
+    }
+
+    if(modalType.value === 'create'){
+        /*Create*/
+        form.post(route('warehouse.store'), {
+            onFinish: visit => {
+                checkModal()
+            },
+        });
+    }else{
+        /*Update*/
+        form.put(route('warehouse.update',{'id' : form.id}), {
+            onFinish: visit => {
+                checkModal()
+            },
+        });
+    }
 }
 </script>
 
 <template>
     <visitor-layout>
         <template #actionArea>
-            <t-button @click="showModal = true" label="Yeni Depo Ekle" icon="fa-solid fa-plus"/>
+            <t-button @click="showModal = true; modalType = 'create'" label="Yeni Depo Ekle" icon="fa-solid fa-plus"/>
         </template>
+
+        <!--Table-->
+        <t-table :data="tableData" :headers="headers">
+            <template #actions="{props}">
+                <div class="flex w-full justify-end pr-6">
+                    <t-button @click="selectRow(props); modalType = 'update'" icon="fa-solid fa-pen-to-square"/>
+                </div>
+            </template>
+        </t-table>
 
         <!--Modal-->
         <t-modal title="Yeni Depo Oluşturma" v-model="showModal">
@@ -53,7 +107,12 @@ const handleSubmit = async ()=>{
 
             <!--Submit-->
             <div class="flex w-full justify-end">
-                <t-button @click="handleSubmit" :disabled="!form.isDirty" :label="form.processing ? 'İşleniyor...' : 'Oluştur'" class="mt-4"/>
+                <t-button
+                    @click="handleSubmit"
+                    :disabled="!form.isDirty ||form.name === selectedRow.name"
+                    :label="form.processing ? 'İşleniyor...' : modalType === 'create' ? 'Oluştur' : 'Güncelle'"
+                    class="mt-4"
+                />
             </div>
         </t-modal>
     </visitor-layout>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRequestWarehouse;
+use App\Http\Requests\UpdateRequestWarehouse;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,7 +17,11 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Warehouse/Index');
+        $warehouses = Warehouse::paginate(5);
+
+        return Inertia::render('Warehouse/Index',[
+            'tableData' => $warehouses
+        ]);
     }
 
     /**
@@ -38,7 +43,7 @@ class WarehouseController extends Controller
     public function store(StoreRequestWarehouse $request)
     {
         $warehouse = new Warehouse;
-        $warehouse->name = $request->name;
+        $warehouse->name = $request->validated('name');
         $warehouse->save();
 
         session()->flash('message', ['type'=>'success', 'content'=>'Depo eklendi']);
@@ -73,11 +78,17 @@ class WarehouseController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Warehouse  $warehouse
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Warehouse $warehouse)
+    public function update(UpdateRequestWarehouse $request, $id)
     {
-        //
+        $warehouse = Warehouse::findOrFail($id);
+        $warehouse->name = $request->validated('name');
+        $warehouse->update();
+
+        session()->flash('message', ['type'=>'info', 'content'=>'Depo güncellendi']);
+
+        return redirect()->back();
     }
 
     /**
