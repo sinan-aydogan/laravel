@@ -95,10 +95,14 @@ class WarehouseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Warehouse  $warehouse
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Warehouse $warehouse)
     {
-        //
+        $warehouse->delete();
+
+        session()->flash('message', ['type'=>'info', 'content'=>'Depo silindi.']);
+
+        return redirect()->back();
     }
 }

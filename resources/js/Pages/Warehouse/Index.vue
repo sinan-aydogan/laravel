@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import { ref, watch } from "vue";
 import VisitorLayout from "@/Layouts/VisitorLayout.vue";
 import TButton from "@/Components/TButton.vue";
 import TModal from "@/Components/TModal.vue";
@@ -84,6 +84,20 @@ const handleSubmit = async ()=>{
         });
     }
 }
+
+/*Watch showModal*/
+watch(showModal, ()=>{
+    if(!showModal.value){
+        form.reset()
+    }
+})
+
+/*Handle Delete*/
+const handleDelete = (row)=>{
+    form.delete(route('warehouse.destroy', row))
+}
+
+
 </script>
 
 <template>
@@ -95,7 +109,8 @@ const handleSubmit = async ()=>{
         <!--Table-->
         <t-table :data="tableData" :headers="headers">
             <template #actions="{props}">
-                <div class="flex w-full justify-end pr-6">
+                <div class="flex w-full justify-end pr-6 space-x-2">
+                    <t-button @click="handleDelete(props)" icon="fa-solid fa-trash" color="red"/>
                     <t-button @click="selectRow(props); modalType = 'update'" icon="fa-solid fa-pen-to-square"/>
                 </div>
             </template>
@@ -103,8 +118,10 @@ const handleSubmit = async ()=>{
 
         <!--Modal-->
         <t-modal title="Yeni Depo Oluşturma" v-model="showModal">
-            <t-text-input v-model="form.name" label="Depo Adı" id="name" :errors="v$.name.$errors" />
-
+            <!--Form-->
+            <div>
+                <t-text-input v-model="form.name" label="Depo Adı" id="name" :errors="v$.name.$errors" />
+            </div>
             <!--Submit-->
             <div class="flex w-full justify-end">
                 <t-button
