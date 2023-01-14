@@ -78,6 +78,7 @@ const checkModal = () => {
     if(!form.hasErrors){
         showModal.value = false;
         form.reset()
+        v$.value.$reset()
     }
 }
 
@@ -92,17 +93,15 @@ const handleSubmit = async ()=>{
     if(modalType.value === 'create'){
         /*Create*/
         form.post(route('warehouse.store'), {
-            onFinish: visit => {
+            onSuccess: () => {
                 checkModal()
-                form.reset()
             },
         });
     }else{
         /*Update*/
         form.put(route('warehouse.update',{'id' : form.id}), {
-            onFinish: visit => {
+            onSuccess: () => {
                 checkModal()
-                form.reset()
             },
         });
     }
@@ -125,9 +124,8 @@ const showDeleteConfirmModal = (row)=>{
 /*Handle Delete*/
 const handleDelete = ()=>{
     form.delete(route('warehouse.destroy', {id: form.id}),{
-        onFinish: visit => {
+        onFinish: () => {
             checkModal()
-            form.reset()
         },
     })
 }
