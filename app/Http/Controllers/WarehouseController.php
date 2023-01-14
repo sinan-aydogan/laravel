@@ -97,8 +97,10 @@ class WarehouseController extends Controller
      * @param  \App\Models\Warehouse  $warehouse
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Warehouse $warehouse)
+    public function destroy(Request $request)
     {
+        $warehouse = Warehouse::findOrFail($request->id);
+
         $warehouse->delete();
 
         session()->flash('message', ['type'=>'info', 'content'=>'Depo silindi.']);

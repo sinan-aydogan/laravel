@@ -74,18 +74,20 @@ const selectRow = (row)=>{
     form.name = row.name
 }
 
+const checkModal = () => {
+    if(!form.hasErrors){
+        showModal.value = false;
+        form.reset()
+    }
+}
+
 /*Submit*/
 const handleSubmit = async ()=>{
     const isValidated = await v$.value.$validate()
 
     if (!isValidated) return
 
-    let checkModal = () => {
-        if(!form.hasErrors){
-            showModal.value = false;
-            form.reset()
-        }
-    }
+
 
     if(modalType.value === 'create'){
         /*Create*/
@@ -112,12 +114,22 @@ watch(showModal, ()=>{
         form.reset()
     }
 })
-
-/*Handle Delete*/
-const handleDelete = (row)=>{
+/*Show Delete Confirm Modal*/
+const showDeleteConfirmModal = (row)=>{
     modalType.value = 'delete'
     showModal.value = true
-    /*form.delete(route('warehouse.destroy', row))*/
+    form.id = row.id
+}
+
+
+/*Handle Delete*/
+const handleDelete = ()=>{
+    form.delete(route('warehouse.destroy', {id: form.id}),{
+        onFinish: visit => {
+            checkModal()
+            form.reset()
+        },
+    })
 }
 </script>
 
@@ -131,7 +143,7 @@ const handleDelete = (row)=>{
         <t-table :data="tableData" :headers="headers">
             <template #actions="{props}">
                 <div class="flex w-full justify-end pr-6 space-x-2">
-                    <t-button @click="handleDelete(props)" icon="fa-solid fa-trash" color="red"/>
+                    <t-button @click="showDeleteConfirmModal(props)" icon="fa-solid fa-trash" color="red"/>
                     <t-button @click="selectRow(props); modalType = 'update'" icon="fa-solid fa-pen-to-square"/>
                 </div>
             </template>
@@ -154,7 +166,7 @@ const handleDelete = (row)=>{
                     @click="showModal = false"
                 />
                 <t-button
-                    @click="handleSubmit"
+                    @click="modalType !=='delete' ? handleSubmit() : handleDelete()"
                     :disabled="(!form.isDirty || form.name === selectedRow.name) && modalType !=='delete'"
                     :label="modalTexts.button"
                     :color="modalType ==='delete' ? 'red' : 'blue'"
