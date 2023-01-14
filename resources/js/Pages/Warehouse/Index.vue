@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import VisitorLayout from "@/Layouts/VisitorLayout.vue";
 import TButton from "@/Components/TButton.vue";
 import TModal from "@/Components/TModal.vue";
@@ -33,6 +33,25 @@ const headers = [
 /*Modal*/
 const modalType = ref('create');
 const showModal = ref(false);
+const modalTexts = computed(()=>{
+    switch (modalType.value){
+        case 'create':
+            return {
+                title: 'Yeni Depo Oluştur',
+                button: form.processing ? 'Oluşturuluyor' : 'Oluştur'
+            };
+        case 'update':
+            return {
+                title: 'Depoyu Güncelle',
+                button: form.processing ? 'Güncelleniyor' : 'Güncelle'
+            };
+        case 'delete':
+            return {
+                title: 'Depoyu Sil',
+                button: form.processing ? 'Siliniyor' : 'Sil'
+            };
+    }
+})
 
 /*Form*/
 const form = useForm({
@@ -73,6 +92,7 @@ const handleSubmit = async ()=>{
         form.post(route('warehouse.store'), {
             onFinish: visit => {
                 checkModal()
+                form.reset()
             },
         });
     }else{
@@ -80,6 +100,7 @@ const handleSubmit = async ()=>{
         form.put(route('warehouse.update',{'id' : form.id}), {
             onFinish: visit => {
                 checkModal()
+                form.reset()
             },
         });
     }
@@ -94,10 +115,10 @@ watch(showModal, ()=>{
 
 /*Handle Delete*/
 const handleDelete = (row)=>{
-    form.delete(route('warehouse.destroy', row))
+    modalType.value = 'delete'
+    showModal.value = true
+    /*form.delete(route('warehouse.destroy', row))*/
 }
-
-
 </script>
 
 <template>
@@ -117,18 +138,26 @@ const handleDelete = (row)=>{
         </t-table>
 
         <!--Modal-->
-        <t-modal title="Yeni Depo Oluşturma" v-model="showModal">
+        <t-modal :title="modalTexts.title" v-model="showModal">
             <!--Form-->
-            <div>
+            <div v-if="modalType !== 'delete'">
                 <t-text-input v-model="form.name" label="Depo Adı" id="name" :errors="v$.name.$errors" />
             </div>
+            <div v-else>
+                Depo silinecektir onaylıyor musunuz?
+            </div>
             <!--Submit-->
-            <div class="flex w-full justify-end">
+            <div class="flex w-full justify-end space-x-2 mt-4">
+                <t-button
+                    label="Vazgeç"
+                    color="slate"
+                    @click="showModal = false"
+                />
                 <t-button
                     @click="handleSubmit"
-                    :disabled="!form.isDirty ||form.name === selectedRow.name"
-                    :label="form.processing ? 'İşleniyor...' : modalType === 'create' ? 'Oluştur' : 'Güncelle'"
-                    class="mt-4"
+                    :disabled="(!form.isDirty || form.name === selectedRow.name) && modalType !=='delete'"
+                    :label="modalTexts.button"
+                    :color="modalType ==='delete' ? 'red' : 'blue'"
                 />
             </div>
         </t-modal>
