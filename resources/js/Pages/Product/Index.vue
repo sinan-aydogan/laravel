@@ -23,27 +23,31 @@ const headers = [
         id: 'name',
         label: 'Ürün Adı',
         style: ['text-left','px-10']
+    },
+    {
+        id: 'actions',
+        label: 'İşlemler',
     }
 ]
 
 /*Modal*/
-const showModal=ref(true)
+const showModal=ref(false)
 const modalType=ref('create')
 const modalTexts = computed(()=>{
     switch (modalType.value){
         case 'create':
             return {
-                title: 'Yeni Depo Oluştur',
+                title: 'Yeni Ürün Oluştur',
                 button: form.processing ? 'Oluşturuluyor' : 'Oluştur'
             };
         case 'update':
             return {
-                title: 'Depoyu Güncelle',
+                title: 'Ürünü Güncelle',
                 button: form.processing ? 'Güncelleniyor' : 'Güncelle'
             };
         case 'delete':
             return {
-                title: 'Depoyu Sil',
+                title: 'Ürünü Sil',
                 button: form.processing ? 'Siliniyor' : 'Sil'
             };
     }
@@ -179,7 +183,7 @@ const deleteImage = ()=>{
                 </div>
             </div>
             <div v-else>
-                Depo silinecektir onaylıyor musunuz?
+                Ürün silinecektir onaylıyor musunuz?
             </div>
             <!--Submit-->
             <div class="flex w-full justify-end space-x-2 mt-4">
