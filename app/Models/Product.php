@@ -16,4 +16,13 @@ class Product extends Model
     public function warehouses():BelongsToMany{
         return $this->belongsToMany(Warehouse::class)->withPivot('quantity');
     }
+
+    /*Product Image*/
+    /**
+     * Get the post's image.
+     */
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }
