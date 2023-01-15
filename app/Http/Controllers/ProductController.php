@@ -39,7 +39,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->file('image'));
+        return $request->file('image');
     }
 
     /**

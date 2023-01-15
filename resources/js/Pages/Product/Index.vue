@@ -21,7 +21,7 @@ const headers = [
 ]
 
 /*Modal*/
-const showModal=ref(false)
+const showModal=ref(true)
 const modalType=ref('create')
 const modalTexts = computed(()=>{
     switch (modalType.value){
@@ -46,7 +46,8 @@ const modalTexts = computed(()=>{
 /*Form*/
 const form = useForm({
     id: '',
-    name: ''
+    name: '',
+    image: null
 })
 
 const rules = ref({
@@ -120,7 +121,19 @@ const handleDelete = ()=>{
     })
 }
 
+/*Product Image*/
+const image = ref(null)
+const imageUrl = ref('https://images.unsplash.com/photo-1628794577976-db3723221fff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YmxhbmslMjBwcm9kdWN0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60')
+const updateImage = ()=>{
+    form.image = image.value.files[0]
+    imageUrl.value = URL.createObjectURL(form.image)
+}
 
+const deleteImage = ()=>{
+    image.value = null
+    form.image = null
+    imageUrl.value = 'https://images.unsplash.com/photo-1628794577976-db3723221fff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YmxhbmslMjBwcm9kdWN0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60'
+}
 </script>
 
 <template>
@@ -135,6 +148,15 @@ const handleDelete = ()=>{
             <!--Form-->
             <div v-if="modalType !== 'delete'">
                 <t-text-input v-model="form.name" label="Ürün Adı" id="name" :errors="v$.name.$errors" />
+
+                <div class="flex items-center space-x-4 mt-4">
+                    <img :src="imageUrl" class="h-16 w-16 bg-slate-300 rounded-full">
+                    <div class="flex space-x-2">
+                        <t-button label="Dosya Seç" @click="image.click()"/>
+                        <t-button icon="fa-solid fa-trash" color="red" @click="deleteImage"/>
+                    </div>
+                    <input type="file" ref="image" class="hidden mt-4" @input="updateImage">
+                </div>
             </div>
             <div v-else>
                 Depo silinecektir onaylıyor musunuz?
