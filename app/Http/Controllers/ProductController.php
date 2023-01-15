@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(5);
+        $products = Product::with('image')->paginate(5);
         return Inertia::render('Product/Index', [
             'products' => $products
         ]);
@@ -35,12 +35,23 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        dd($request->file('image'));
-        return $request->file('image');
+        $image = $request->file('image');
+        $savedImage = $image->store('product_images','local');
+        /*Product*/
+        $product = Product::create([
+            'name' => $request->name
+        ]);
+        /*Image*/
+        $product->image()->create([
+            'name' => basename($savedImage),
+            'url' => $savedImage
+        ]);
+
+        return redirect()->back();
     }
 
     /**

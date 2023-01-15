@@ -15,6 +15,10 @@ defineProps({
 
 const headers = [
     {
+        id: 'image',
+        label: 'Ürün Resmi'
+    },
+    {
         id: 'name',
         label: 'Ürün Adı'
     }
@@ -141,7 +145,21 @@ const deleteImage = ()=>{
         <template #actionArea>
             <t-button @click="showModal = true; modalType = 'create'" label="Yeni Ürün Ekle" icon="fa-solid fa-plus"/>
         </template>
-        <t-table :data="products" :headers="headers"/>
+        <t-table :data="products" :headers="headers">
+            <!--Image-->
+            <template #image="{props}">
+                <div class="w-10">
+                    <img :src="props.image.url">
+                </div>
+            </template>
+            <!--Actions-->
+            <template #actions="{props}">
+                <div class="flex w-full justify-end pr-6 space-x-2">
+                    <t-button @click="showDeleteConfirmModal(props)" icon="fa-solid fa-trash" color="red"/>
+                    <t-button @click="selectRow(props); modalType = 'update'" icon="fa-solid fa-pen-to-square"/>
+                </div>
+            </template>
+        </t-table>
 
         <!--Modal-->
         <t-modal :title="modalTexts.title" v-model="showModal">

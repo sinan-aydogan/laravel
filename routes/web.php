@@ -37,4 +37,8 @@ Route::any('test',function(){
     return Inertia::render('Test');
 })->name('test');
 
+Route::get('file', function (){
+    \Illuminate\Support\Facades\Storage::disk('s3')->put('denem.text', 'Bu bir deneme dosyası');
+});
+
 require __DIR__.'/routes.php';
