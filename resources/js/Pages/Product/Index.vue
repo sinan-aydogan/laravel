@@ -16,11 +16,13 @@ defineProps({
 const headers = [
     {
         id: 'image',
-        label: 'Ürün Resmi'
+        label: 'Ürün Resmi',
+        style: ['text-center', 'w-[8rem]']
     },
     {
         id: 'name',
-        label: 'Ürün Adı'
+        label: 'Ürün Adı',
+        style: ['text-left','px-10']
     }
 ]
 
@@ -148,8 +150,8 @@ const deleteImage = ()=>{
         <t-table :data="products" :headers="headers">
             <!--Image-->
             <template #image="{props}">
-                <div class="w-10">
-                    <img :src="props.image.url">
+                <div class="flex w-full justify-center">
+                    <img :src="props.image.url" class="w-12 h-12 object-cover rounded-full">
                 </div>
             </template>
             <!--Actions-->

@@ -24,7 +24,7 @@ const tableData = computed(() => {
             <thead>
                 <!-- Columns -->
                 <template v-for="i in headers">
-                    <th class="bg-slate-200 first:rounded-tl-lg last:rounded-tr-lg p-2">
+                    <th class="bg-slate-200 first:rounded-tl-lg last:rounded-tr-lg p-2" :class="i['style']">
                         {{ i.label }}
                     </th>
                 </template>
@@ -35,7 +35,7 @@ const tableData = computed(() => {
                     <tr class="odd:bg-slate-300 group">
                         <!-- Columns -->
                         <template v-for="column in headers">
-                            <td class="p-2 group-last:first:rounded-bl-lg group-last:last:rounded-br-lg">
+                            <td class="p-2 group-last:first:rounded-bl-lg group-last:last:rounded-br-lg"  :class="column['style']">
                                 <slot v-if="$slots.hasOwnProperty(column.id)" :name="column.id" :props="row" />
                                 <span v-else v-text="row[column.id]" />
                             </td>
