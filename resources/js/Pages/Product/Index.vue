@@ -80,6 +80,7 @@ const checkModal = () => {
         showModal.value = false;
         form.reset()
         v$.value.$reset()
+        deleteImage()
     }
 }
 
@@ -179,7 +180,7 @@ const deleteImage = ()=>{
                         <t-button label="Dosya Seç" @click="image.click()"/>
                         <t-button icon="fa-solid fa-trash" color="red" @click="deleteImage"/>
                     </div>
-                    <input type="file" ref="image" class="hidden mt-4" @input="updateImage">
+                    <input type="file" ref="image" class="hidden mt-4" @change="updateImage">
                 </div>
             </div>
             <div v-else>
