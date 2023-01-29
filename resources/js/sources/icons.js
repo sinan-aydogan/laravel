@@ -26,7 +26,7 @@ import {
     faEye,
     faLeftLong,
     faUser,
-    faMagnifyingGlass, faWarehouse, faBox, faTruck
+    faMagnifyingGlass, faWarehouse, faBox, faTruck, faList
 } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
@@ -62,5 +62,6 @@ library.add(
     faMagnifyingGlass,
     faWarehouse,
     faBox,
-    faTruck
+    faTruck,
+    faList
 );

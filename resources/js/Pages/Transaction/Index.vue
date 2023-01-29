@@ -49,7 +49,7 @@ const types = [
 
 /*Modal*/
 const modalType = ref('create')
-const showModal = ref(false)
+const showModal = ref(true)
 const modalTexts = computed(()=>{
     switch (modalType.value){
         case 'create':
@@ -72,8 +72,8 @@ const modalTexts = computed(()=>{
 
 /*Form*/
 const form = useForm({
-    product_id: null,
-    warehouse_id: null,
+    product_id: 1,
+    warehouse_id: 1,
     quantity: 0,
     type: 'incoming'
 })
@@ -114,14 +114,14 @@ const handleSubmit = async ()=>{
 
     if(modalType.value === 'create'){
         /*Create*/
-        form.post(route('product.store'), {
+        form.post(route('transaction.store'), {
             onSuccess: () => {
                 checkModal()
             },
         });
     }else{
         /*Update*/
-        form.put(route('product.update',{'id' : form.id}), {
+        form.put(route('transaction.update',{'id' : form.id}), {
             onSuccess: () => {
                 checkModal()
             },
@@ -165,12 +165,12 @@ const handleDelete = ()=>{
 
             <!--Warehouse-->
             <template #warehouse="{props}">
-                <p v-if="props.warehouse.hasOwnProperty('name')" v-text="props.warehouse.name"></p>
+                <p v-if="props.stock.hasOwnProperty('warehouse')" v-text="props.stock.warehouse.name"></p>
             </template>
 
             <!--Product-->
             <template #product="{props}">
-                <p v-if="props.product.hasOwnProperty('name')" v-text="props.product.name"></p>
+                <p v-if="props.stock.hasOwnProperty('product')" v-text="props.stock.product.name"></p>
             </template>
         </t-table>
     </visitor-layout>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\Transaction;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::paginate(10);
+        $transactions = Transaction::with('stock.product', 'stock.warehouse')->paginate(10);
         $warehouses = Warehouse::all(['id', 'name']);
         $products = Product::all(['id', 'name']);
 
@@ -41,11 +43,43 @@ class TransactionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreTransactionRequest $transactionRequest)
     {
-        //
+        /*Create Transaction*/
+        $product = Product::find($transactionRequest->validated('product_id'));
+        $warehouse = Warehouse::find($transactionRequest->validated('warehouse_id'));
+        $stockCard = Stock::where(['product_id'=> $product->id, 'warehouse_id'=>$warehouse->id])->first();
+
+        $transaction = Transaction::create([
+            'stock_id' => $stockCard->id,
+            'user_id' => auth()->id(),
+            'quantity' => $transactionRequest->validated('quantity'),
+            'type' => $transactionRequest->validated('type'),
+        ]);
+
+        /*Check Stock Card*/
+        /*Update Stock*/
+        if($transactionRequest->validated('type')=='incoming'){
+            /*Add*/
+            $stockCard->update([
+                'quantity' => $stockCard->quantity + $transactionRequest->validated('quantity')
+            ]);
+        }else{
+            /*Extraction*/
+            if($stockCard->quantity > $transactionRequest->validated('quantity')){
+                $stockCard->update([
+                    'quantity' => $stockCard->quantity - $transactionRequest->validated('quantity')
+                ]);
+            }else{
+                return 'Yetersiz stok';
+            }
+
+        }
+
+
+        return redirect()->back();
     }
 
     /**

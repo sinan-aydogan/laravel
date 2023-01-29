@@ -10,6 +10,13 @@ export default function () {
             icon: 'fa-solid fa-truck'
         },
         {
+            id: 'stockCard',
+            label: 'Stok Listesi',
+            type: 'route',
+            link: 'stockCard.index',
+            icon: 'fa-solid fa-list'
+        },
+        {
             id: 'warehouse',
             label: 'Depolar',
             type: 'route',
