@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,7 +17,15 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Transaction/Index');
+        $transactions = Transaction::paginate(10);
+        $warehouses = Warehouse::all(['id', 'name']);
+        $products = Product::all(['id', 'name']);
+
+        return Inertia::render('Transaction/Index', [
+            'transactions' => $transactions,
+            'warehouses' => $warehouses,
+            'products' => $products
+        ]);
     }
 
     /**
@@ -25,7 +35,6 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
