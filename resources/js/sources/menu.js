@@ -5,21 +5,21 @@ export default function () {
         {
             id: 'transaction',
             label: 'Stok Hareketleri',
-            type: '',
+            type: 'route',
             link: 'transaction.index',
             icon: 'fa-solid fa-truck'
         },
         {
             id: 'warehouse',
             label: 'Depolar',
-            type: '',
+            type: 'route',
             link: 'warehouse.index',
             icon: 'fa-solid fa-warehouse'
         },
         {
             id: 'product',
             label: 'Ürünler',
-            type: '',
+            type: 'route',
             link: 'product.index',
             icon: 'fa-solid fa-box'
         },
