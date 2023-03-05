@@ -3,7 +3,7 @@
 }
 
 .modal{
-    @apply relative bg-white rounded-lg min-w-[25rem] p-4
+    @apply relative bg-white rounded-lg min-w-[25rem] max-w-[50rem] p-4
 }
 
 .modal-close-btn{

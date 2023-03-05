@@ -10,6 +10,11 @@ class Role extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'code',
+        'name'
+    ];
+
     /*Role's Permissions*/
 
     public function permissions():BelongsToMany{

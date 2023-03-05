@@ -16,6 +16,10 @@ defineProps({
     tableData: {
         type: Object,
         default: ()=>{}
+    },
+    permissions: {
+        type: Array,
+        default: ()=>[]
     }
 })
 
@@ -42,17 +46,17 @@ const modalTexts = computed(()=>{
     switch (modalType.value){
         case 'create':
             return {
-                title: 'Yeni Depo Oluştur',
+                title: 'Yeni Rol Oluştur',
                 button: form.processing ? 'Oluşturuluyor' : 'Oluştur'
             };
         case 'update':
             return {
-                title: 'Depoyu Güncelle',
+                title: 'Rolü Güncelle',
                 button: form.processing ? 'Güncelleniyor' : 'Güncelle'
             };
         case 'delete':
             return {
-                title: 'Depoyu Sil',
+                title: 'Rolü Sil',
                 button: form.processing ? 'Siliniyor' : 'Sil'
             };
     }
@@ -61,11 +65,14 @@ const modalTexts = computed(()=>{
 /*Form*/
 const form = useForm({
     id: '',
-    name: ''
+    code: '',
+    name: '',
+    permissions: []
 })
 
 const rules = ref({
-    name: { required: helpers.withMessage('Depo adı gereklidir', required) },
+    code: { required: helpers.withMessage('Rol kısaltması gereklidir', required) },
+    name: { required: helpers.withMessage('Rol adı gereklidir', required) },
 })
 
 const v$ = useVuelidate(rules, form)
@@ -76,7 +83,9 @@ const selectRow = (row)=>{
     showModal.value = true
     selectedRow.value = row
     form.id = row.id
-    form.name = row.name
+    form.code = row.code,
+    form.name = row.name,
+    form.permissions = row.permissions
 }
 
 const checkModal = () => {
@@ -97,18 +106,28 @@ const handleSubmit = async ()=>{
 
     if(modalType.value === 'create'){
         /*Create*/
-        form.post(route('warehouse.store'), {
+        form.post(route('role.store'), {
             onSuccess: () => {
                 checkModal()
             },
         });
     }else{
         /*Update*/
-        form.put(route('warehouse.update',{'id' : form.id}), {
+        form.put(route('role.update',{'id' : form.id}), {
             onSuccess: () => {
                 checkModal()
             },
         });
+    }
+}
+
+/*Permission*/
+const updatePermissionList = (permission)=>{
+    /*Check*/
+    if(form.permissions.includes(permission)){
+        form.permissions.splice(form.permissions.findIndex((i)=>i===permission),1)
+    }else{
+        form.permissions.push(permission)
     }
 }
 
@@ -139,7 +158,7 @@ const handleDelete = ()=>{
 <template>
     <visitor-layout>
         <template #actionArea>
-            <t-button @click="showModal = true; modalType = 'create'" label="Yeni Depo Ekle" icon="fa-solid fa-plus"/>
+            <t-button @click="showModal = true; modalType = 'create'" label="Yeni Rol Ekle" icon="fa-solid fa-plus"/>
         </template>
 
         <!--Table-->
@@ -173,7 +192,19 @@ const handleDelete = ()=>{
         <t-modal :title="modalTexts.title" v-model="showModal">
             <!--Form-->
             <div v-if="modalType !== 'delete'">
-                <t-text-input v-model="form.name" label="Depo Adı" id="name" :errors="v$.name.$errors" />
+                <!--Role Code-->
+                <t-text-input v-model="form.code" label="Rol Kısaltması" id="code" :errors="v$.code.$errors" class="mb-4"/>
+
+                <!--Role Name-->
+                <t-text-input v-model="form.name" label="Rol Adı" id="name" :errors="v$.name.$errors"/>
+
+                <!--Permissions-->
+                <span class="flex mt-4 mb-2">İzinler</span>
+                <div class="flex flex-wrap w-fit gap-2">
+                    <template v-for="permission in permissions" :key="permission.id">
+                        <t-badge selectable :id="permission.id" :label="permission.name" @clicked="updatePermissionList($event)"/>
+                    </template>
+                </div>
             </div>
             <div v-else>
                 Depo silinecektir onaylıyor musunuz?
