@@ -10,6 +10,7 @@ import { useForm } from "@inertiajs/inertia-vue3";
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from "@vuelidate/validators"
 import TTable from "@/Components/TTable.vue";
+import TBadge from "@/Components/TBadge.vue";
 
 defineProps({
     tableData: {
@@ -23,6 +24,10 @@ const headers = [
     {
         id: 'name',
         label: 'Rol Adı'
+    },
+    {
+        id: 'permissions',
+        label: 'İzinler'
     },
     {
         id: 'actions',
@@ -139,6 +144,23 @@ const handleDelete = ()=>{
 
         <!--Table-->
         <t-table :data="tableData" :headers="headers">
+            <!--Role Name-->
+            <template #name="{props}">
+                <span v-text="props.name" class="flex w-64"></span>
+            </template>
+
+            <!--Permissions-->
+            <template #permissions="{props}">
+                <div class="flex flex-wrap gap-2">
+                    <template v-for="permission in props.permissions" :key="permission.id">
+                        <t-badge>
+                            {{permission.name}}
+                        </t-badge>
+                    </template>
+                </div>
+            </template>
+
+            <!--Actions-->
             <template #actions="{props}">
                 <div class="flex w-full justify-end pr-6 space-x-2">
                     <t-button @click="showDeleteConfirmModal(props)" icon="fa-solid fa-trash" color="red"/>
