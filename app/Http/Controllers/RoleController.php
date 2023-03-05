@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RoleController extends Controller
 {
@@ -13,7 +15,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::paginate(5);
+
+        return Inertia::render('Role/Index',[
+            'tableData' => $roles
+        ]);
     }
 
     /**
