@@ -50,7 +50,9 @@ const logout = () => {
         <div class="flex flex-col space-y-2 flex-grow mt-10 overflow-y-auto">
             <!-- Root Links -->
             <template v-for="root in links">
-                <t-menu-item :item="root" />
+
+                <hr v-if="root.id === 'divider'" class="border-slate-500">
+                <t-menu-item v-else :item="root" />
 
                 <!-- Sub Links -->
                 <div v-if="root['items'] && activeLink === root.id" class="space-y-2 bg-slate-500/25">

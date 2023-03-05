@@ -31,6 +31,33 @@ export default function () {
             icon: 'fa-solid fa-box'
         },
         {
+            id: 'divider'
+        },
+        {
+            id: 'users',
+            label: 'Kullanıcılar',
+            type: 'route',
+            link: 'user.index',
+            icon: 'fa-solid fa-user-gear'
+        },
+        {
+            id: 'roles',
+            label: 'Roller',
+            type: 'route',
+            link: 'role.index',
+            icon: 'fa-solid fa-user-shield'
+        },
+        {
+            id: 'permissions',
+            label: 'İzinler',
+            type: 'route',
+            link: 'permission.index',
+            icon: 'fa-solid fa-key'
+        },
+        {
+            id: 'divider'
+        },
+        {
             id: "help",
             label: "Yardım",
             type: "link",
